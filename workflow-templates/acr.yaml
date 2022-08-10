@@ -1,0 +1,27 @@
+name: (Miljodir) - starter workflow for container build and push
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - $default-branch
+    paths:
+      - "src/**"
+      - "!src/**/*.md"
+
+jobs:
+  dev:
+    uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@main # Set this to @github-tag, e.g @main to avoid unexpected behavior
+    with:
+      environment: dev
+      image-name: testteam1/testapp1 # Format your images like this: teamname/appname . Use appname/appname if "team/workload" is not applicaable
+      build-path: "./src" # path to your Dockerfile
+      k8s-deploymentfile: "./fluxcd/dev/app.yaml" # Comment this out if you do not wish auto deployment updates.
+      k8s-branchname: "dev" # This will currently not work against protected branches # https://github.com/github-community/community/discussions/13836
+      #build-arg: "environment=dev"
+      #run-image-scan: "false" # defaults to true
+    secrets:
+      acr-clientid: ${{ secrets.AZURE_CLIENT_ID }}
+      acr-clientsecret: ${{ secrets.AZURE_CLIENT_SECRET }}
+#  test:
+# runners not yet available with this flow
