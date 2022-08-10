@@ -1,4 +1,4 @@
-name: (Miljodir) - starter workflow for container build and push
+name: (Dev) Container image build and push, optionally update flux config
 
 on:
   workflow_dispatch:
@@ -23,5 +23,3 @@ jobs:
     secrets:
       acr-clientid: ${{ secrets.AZURE_CLIENT_ID }}
       acr-clientsecret: ${{ secrets.AZURE_CLIENT_SECRET }}
-#  test:
-# runners not yet available with this flow
