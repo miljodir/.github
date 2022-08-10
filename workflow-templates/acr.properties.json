@@ -1,6 +1,6 @@
 {
   "name": "Miljødirektoratet - build and push to ACR",
-  "description": "Starter workflow showing demonstrating how to push to ACR",
+  "description": "Default workflow for pushing to container registries in Miljødirektoratet",
   "iconName": "mdir",
   "categories": ["Shell", "Dockerfile"],
   "filePatterns": ["^Dockerfile"]
