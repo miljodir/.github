@@ -1,0 +1,37 @@
+name: (Dev) Terraform Plan & Apply
+on:
+  push:
+    branches:
+      - $default-branch
+    paths:
+      - platform/dev/**
+  pull_request:
+    branches:
+      - $default-branch
+    paths:
+      - platform/dev/**
+
+jobs:
+  plan:
+    if: "${{ github.event_name == 'pull_request' }}"
+    uses: miljodir/cp-workflow-templates/.github/workflows/tf-plan.yaml@main # Set this to @github-tag to avoid unexpected behavior
+    with:
+      environment: dev
+      tfDocsDirectories: "./platform, ./modules"
+      #optionalVarFile: config.tfvars
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+      GH_SSH_KEY: ${{ secrets.ACCESS_SHARED_CONFIGURATION }}
+
+  apply:
+    if: "${{ github.ref == 'refs/heads/main' && github.event_name == 'push'}}"
+    uses: miljodir/cp-workflow-templates/.github/workflows/tf-apply.yaml@main # Set this to @github-tag to avoid unexpected behavior
+    with:
+      environment: dev
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+      GH_SSH_KEY: ${{ secrets.ACCESS_SHARED_CONFIGURATION }}

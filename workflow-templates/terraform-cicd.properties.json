@@ -1,0 +1,7 @@
+{
+  "name": "Miljødirektoratet - plan and deploy to terraform environment",
+  "description": "Default workflow showing how to use Terraform",
+  "iconName": "mdir",
+  "categories": ["HCL"],
+  "filePatterns": ["*.tf"]
+}
