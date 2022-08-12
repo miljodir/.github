@@ -13,13 +13,16 @@ jobs:
   dev:
     uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@main # Set this to @github-tag, e.g @main to avoid unexpected behavior
     with:
-      environment: dev
+      environment: dev # dev, test or production. Only dev works per august 2022.
       image-name: testteam1/testapp1 # Format your images like this: teamname/appname . Use appname/appname if "team/workload" is not applicaable
       build-path: "./src" # path to your Dockerfile
-      k8s-deploymentfile: "./fluxcd/dev/app.yaml" # Comment this out if you do not wish auto deployment updates.
-      k8s-branchname: "dev" # This will currently not work against protected branches # https://github.com/github-community/community/discussions/13836
+
+      # OPTIONAL ARGUMENTS
+      #k8s-deploymentfile: "./fluxcd/dev/app.yaml" # auto update image in deployment yaml. Will not work for protected branches
+      #k8s-branchname: "dev" # This will currently not work against protected branches # https://github.com/github-community/community/discussions/13836
       #build-arg: "environment=dev"
       #run-image-scan: "false" # defaults to true
+      #image-scan-severity: "MEDIUM" # defaults to "HIGH"
     secrets:
       acr-clientid: ${{ secrets.AZURE_CLIENT_ID }}
       acr-clientsecret: ${{ secrets.AZURE_CLIENT_SECRET }}
