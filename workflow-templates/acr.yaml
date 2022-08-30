@@ -21,6 +21,7 @@ jobs:
       #k8s-deploymentfile: "./fluxcd/dev/app.yaml" # auto update image in deployment yaml. Will not work for protected branches
       #k8s-branchname: "dev" # This will currently not work against protected branches # https://github.com/github-community/community/discussions/13836
       #build-arg: "environment=dev"
+      #use-docker-cache: # defaults to 'false'. 'true' will build the container image on the self-hosted runner container, which is faster, but may not always work.
       #run-image-scan: "false" # defaults to true
       #image-scan-severity: "MEDIUM" # defaults to "HIGH"
     secrets:
