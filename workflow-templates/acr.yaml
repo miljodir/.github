@@ -18,6 +18,7 @@ jobs:
       build-path: "./src" # path to your Dockerfile
 
       # OPTIONAL ARGUMENTS
+      #dockerfile-path: ./src/Dockerfile # can be set if Dockerfile is not directly under build-path / build context
       #k8s-deploymentfile: "./fluxcd/dev/app.yaml" # auto update image in deployment yaml. Will not work for protected branches
       #k8s-branchname: "dev" # This will currently not work against protected branches # https://github.com/github-community/community/discussions/13836
       #build-arg: "environment=dev"
