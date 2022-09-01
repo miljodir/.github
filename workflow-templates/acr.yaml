@@ -13,7 +13,7 @@ jobs:
   dev:
     uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@main # Set this to @github-tag, e.g @main to avoid unexpected behavior
     with:
-      environment: dev # dev, test or production. Only dev works per august 2022.
+      environment: dev # dev, test or production. this parameter is important to set correctly.
       image-name: testteam1/testapp1 # Format your images like this: teamname/appname . Use appname/appname if "team/workload" is not applicaable
       build-path: "./src" # path to your Dockerfile
 
