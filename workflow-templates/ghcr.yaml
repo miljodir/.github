@@ -1,8 +1,14 @@
-name: Docker to ghcr
+name: Push public docker image to ghcr
 
 on:
   workflow_dispatch:
   push:
+    branches:
+      - $default-branch
+    paths:
+      - "src/**"
+      - "!src/**/*.md"
+  pull_request:
     branches:
       - $default-branch
     paths:
@@ -13,7 +19,7 @@ env:
   REGISTRY: ghcr.io
   REPO_NAME: ${{ github.repository }}
   IMAGE_SUFFIX: "/api" # change to suit your image name
-  BUILD_CONTEXT: "/api" # change me to fit your image path
+  BUILD_CONTEXT: "./api" # change me to fit your image path
   DOCKERFILE_PATH: "default" # change me if needed
 
 jobs:
@@ -67,10 +73,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}
+          images: |
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}
           tags: |
             type=sha
             type=raw,value=${{ steps.env.outputs.tag }}
+            type=raw,value=latest
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -79,8 +87,9 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ${{ env.BUILD_CONTEXT }}
-          dockerfile-path: ${{ steps.env.outputs.DOCKERFILE_PATH }}
+          file: ${{ steps.env.outputs.DOCKERFILE_PATH }}
           push: ${{ github.event_name != 'pull_request' }}
+          load: ${{ github.event_name == 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
