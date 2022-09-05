@@ -1,0 +1,7 @@
+{
+  "name": "Miljødirektoratet - build and push public image to GHCR",
+  "description": "Default workflow for building and pushing public container images in Miljødirektoratet",
+  "iconName": "mdir",
+  "categories": ["Shell", "Dockerfile"],
+  "filePatterns": ["^Dockerfile"]
+}
