@@ -11,7 +11,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
   REPO_NAME: ${{ github.repository }}
   IMAGE_SUFFIX: "/api" # change to suit your image name
   BUILD_CONTEXT: "/api" # change me to fit your image path
@@ -95,8 +94,8 @@ jobs:
         id: scan
         uses: Azure/container-scan@v0.1
         with:
-          image-name: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}:${{ inputs.tag }}
-          severity-threshold: ${{ inputs.image-scan-severity }}
+          image-name: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}:${{ steps.env.outputs.tag }}
+          severity-threshold: "HIGH"
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
