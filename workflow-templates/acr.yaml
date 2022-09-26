@@ -21,7 +21,7 @@ jobs:
       #dockerfile-path: ./src/Dockerfile # can be set if Dockerfile is not directly under build-path / build context
       #use-docker-cache: # defaults to 'false'. 'true' will build the container image on the self-hosted runner container, which is faster, but may not always work.
       k8s-repo: "wl-myteam" # Change me
-      k8s-deploymentfile: "./fluxcd/dev/app.yaml" # auto update image in deployment yaml. Requires the github app permission to bypass branch protection
+      k8s-deploymentfile: "/fluxcd/dev/app.yaml" # auto update image in deployment yaml. Requires the github app permission to bypass branch protection
       #k8s-branchname: "main" # defaults to main
       #build-arg: "environment=dev"
       #run-image-scan: "false" # defaults to true
