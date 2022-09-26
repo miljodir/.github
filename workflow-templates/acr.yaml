@@ -19,12 +19,14 @@ jobs:
 
       # OPTIONAL ARGUMENTS
       #dockerfile-path: ./src/Dockerfile # can be set if Dockerfile is not directly under build-path / build context
-      #k8s-deploymentfile: "./fluxcd/dev/app.yaml" # auto update image in deployment yaml. Will not work for protected branches
-      #k8s-branchname: "dev" # This will currently not work against protected branches # https://github.com/github-community/community/discussions/13836
-      #build-arg: "environment=dev"
       #use-docker-cache: # defaults to 'false'. 'true' will build the container image on the self-hosted runner container, which is faster, but may not always work.
+      k8s-repo: "wl-myteam" # Change me
+      k8s-deploymentfile: "./fluxcd/dev/app.yaml" # auto update image in deployment yaml. Requires the github app permission to bypass branch protection
+      #k8s-branchname: "main" # defaults to main
+      #build-arg: "environment=dev"
       #run-image-scan: "false" # defaults to true
       #image-scan-severity: "MEDIUM" # defaults to "HIGH"
     secrets:
       acr-clientid: ${{ secrets.AZURE_CLIENT_ID }}
       acr-clientsecret: ${{ secrets.AZURE_CLIENT_SECRET }}
+      pem: ${{ secrets.FLUXCD_PR_BYPASS_PEM }}
