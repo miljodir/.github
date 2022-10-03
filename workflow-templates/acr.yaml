@@ -2,6 +2,16 @@ name: (Dev) Container image build and push, optionally update flux config
 
 on:
   workflow_dispatch:
+    inputs:
+      no-build:
+        description: "Use an existing image instead of building a new"
+        required: false
+        default: "false"
+
+      no-build-tag:
+        description: "Existing image tag to use, e.g. '03-10-2022.210'"
+        required: false
+        default: "latest"
   push:
     branches:
       - $default-branch
@@ -26,6 +36,8 @@ jobs:
       #build-arg: "environment=dev"
       #run-image-scan: "false" # defaults to true
       #image-scan-severity: "MEDIUM" # defaults to "HIGH"
+      no-build: ${{ github.event.inputs.no-build }} # only relevant for workflow_dispatch
+      no-build-tag: ${{ github.event.inputs.no-build-tag }} # only relevant for workflow_dispatch
     secrets:
       acr-clientid: ${{ secrets.AZURE_CLIENT_ID }}
       acr-clientsecret: ${{ secrets.AZURE_CLIENT_SECRET }}
