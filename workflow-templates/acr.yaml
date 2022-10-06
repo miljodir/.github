@@ -21,21 +21,27 @@ on:
 
 jobs:
   dev:
-    uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@main # Set this to @github-tag, e.g @main to avoid unexpected behavior
+    uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@acr/v1
     secrets: inherit
     with:
-      environment: dev # dev, test or production. this parameter is important to set correctly.
+      # REQUIRED ARGUMENTS - change to fit your needs
+      environment: dev # dev, test or production.
       image-name: testteam1/testapp1 # Format your images like this: teamname/appname . Use appname/appname if "team/workload" is not applicaable
       build-path: "./src" # path to your Dockerfile
 
-      # OPTIONAL ARGUMENTS
+      # workflow_dispatch Arguments - leave as-is
+      no-build: ${{ github.event.inputs.no-build }}
+      no-build-tag: ${{ github.event.inputs.no-build-tag }}
+
+      # OPTIONAL ARGUMENTS - build and scan container image
       #dockerfile-path: ./src/Dockerfile # can be set if Dockerfile is not directly under build-path / build context
-      #use-docker-cache: # defaults to 'false'. 'true' will build the container image on the self-hosted runner container, which is faster, but may not always work.
-      k8s-repo: "wl-myteam" # Change me
-      k8s-deploymentfile: "/fluxcd/dev/app.yaml" # auto update image in deployment yaml. Requires the github app permission to bypass branch protection
-      #k8s-branchname: "main" # defaults to main
       #build-arg: "environment=dev"
       #run-image-scan: "false" # defaults to true
       #image-scan-severity: "MEDIUM" # defaults to "HIGH"
-      no-build: ${{ github.event.inputs.no-build }} # only relevant for workflow_dispatch
-      no-build-tag: ${{ github.event.inputs.no-build-tag }} # only relevant for workflow_dispatch
+      #use-docker-cache: # defaults to 'false'. 'true' will build the container image on the self-hosted runner container, which is faster, but may not always work.
+
+      # OPTIONAL ARGUMENTS - Auto update image tag / check status
+      k8s-repo: "wl-myteam" # Change me
+      k8s-deploymentfile: "/fluxcd/dev/deployment.yaml" # auto update image in deployment yaml. Requires the github app permission to bypass branch protection
+      #k8s-branchname: "main" # defaults to target the main branch
+      #run-kustomization-check: "false" # Only relevant if k8s-deploymentfile is set. Defaults to "true"

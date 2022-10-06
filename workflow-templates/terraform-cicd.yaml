@@ -14,7 +14,7 @@ on:
 jobs:
   plan:
     if: "${{ github.event_name == 'pull_request' }}"
-    uses: miljodir/cp-workflow-templates/.github/workflows/tf-plan.yaml@main # Set this to @github-tag to avoid unexpected behavior
+    uses: miljodir/cp-workflow-templates/.github/workflows/tf-plan.yaml@tf-plan/v1
     with:
       environment: dev
       tfDocsDirectories: "./platform, ./modules"
@@ -27,7 +27,7 @@ jobs:
 
   apply:
     if: "${{ github.ref == 'refs/heads/main' && github.event_name == 'push'}}"
-    uses: miljodir/cp-workflow-templates/.github/workflows/tf-apply.yaml@main # Set this to @github-tag to avoid unexpected behavior
+    uses: miljodir/cp-workflow-templates/.github/workflows/tf-apply.yaml@tf-apply/v1
     with:
       environment: dev
     secrets:
