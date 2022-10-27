@@ -1,0 +1,13 @@
+# This workflow refers to workflow templates from the miljodir/cp-workflow-templates repo
+# Scans your kubernetes manifests for potential security issues and best practices violations
+name: (Miljodir) - kubescan
+
+on:
+  schedule:
+    - cron: "5 2 * * 6"
+  workflow_dispatch: {}
+
+jobs:
+  scan:
+    uses: miljodir/cp-workflow-templates/.github/workflows/kubescan.yaml@kubescape/v1
+    secrets: inherit

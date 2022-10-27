@@ -1,0 +1,7 @@
+{
+  "name": "Miljødirektoratet - scan kubernetes manifests",
+  "description": "Default workflow for scanning your kubernetes manifests for best practices",
+  "iconName": "mdir",
+  "categories": ["YAML"],
+  "filePatterns": ["fluxcd\\*.yaml"]
+}
