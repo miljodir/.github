@@ -1,6 +1,6 @@
 # This workflow refers to workflow templates from the miljodir/cp-workflow-templates repo
 # Scans your kubernetes manifests for potential security issues and best practices violations
-name: (Miljodir) - kubescan
+name: (Miljodir) - scan infra
 
 on:
   schedule:
@@ -9,5 +9,5 @@ on:
 
 jobs:
   scan:
-    uses: miljodir/cp-workflow-templates/.github/workflows/kubescan.yaml@kubescape/v1
+    uses: miljodir/cp-workflow-templates/.github/workflows/scan-infra.yaml@scan-infra/v1
     secrets: inherit
