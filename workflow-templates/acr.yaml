@@ -7,6 +7,10 @@ on:
         description: "Use an existing image instead of building a new"
         required: false
         default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
 
       no-build-tag:
         description: "Existing image tag to use, e.g. '03-10-2022.210'"
