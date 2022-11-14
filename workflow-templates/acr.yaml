@@ -38,10 +38,7 @@ jobs:
       #build-arg: "environment=dev"
       #run-image-scan: "false" # defaults to true
       #image-scan-severity: "MEDIUM" # defaults to "HIGH"
-      #use-docker-cache: # defaults to 'false'. 'true' will build the container image on the self-hosted runner container, which is faster, but may not always work.
 
-      # OPTIONAL ARGUMENTS - Auto update image tag / check status
+      # OPTIONAL ARGUMENTS - Auto update image tag / check status. Remove below args to skip auto-updating
       k8s-repo: "wl-myteam" # Change me
       k8s-deploymentfile: "/fluxcd/dev/deployment.yaml" # auto update image in deployment yaml. Requires the github app permission to bypass branch protection
-      #k8s-branchname: "main" # defaults to target the main branch
-      #run-kustomization-check: "false" # Only relevant if k8s-deploymentfile is set. Defaults to "true"
