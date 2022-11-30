@@ -12,3 +12,4 @@
 -	Slack: https://github.com/miljodir/guider/blob/main/tilgang-til-slack.md
 - Utvikler-blogg: https://miljodirektoratet.github.io/
 - Rob's blogg: https://devopsjournal.io/
+- Github advanced security - kurs: https://www.linkedin.com/learning/github-advanced-security
