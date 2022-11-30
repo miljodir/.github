@@ -2,8 +2,8 @@
 
 <b>Kjøreregler</b>
 
-- Ikke legg inn data som kan forårsake sikkerhetsproblemer. Passord, innloggingstokens og andre "hemmeligheter" skal legges i Azure Key Vault. Secret-og code-scanning skal utføres når kode sjekkes inn. <b>CodeQL og Dependabot</b> er tilgjengelige i Github. Scan gjerne koden på andre måter også om dere har slike verktøy for hånden. https://docs.microsoft.com/en-us/dotnet/architecture/devops-for-aspnet-developers/actions-codeql
-- :warning: Legg inn et <b>bilde</b> i profilen din hvor en ser at det er deg. (eksempel: https://github.com/crolsson)
+- Ikke legg inn data som kan forårsake sikkerhetsproblemer. Passord, innloggingstokens og andre "hemmeligheter" skal legges i Azure Key Vault. Secret- og code-scanning skal utføres når kode sjekkes inn. <b>CodeQL og Dependabot</b> er tilgjengelige i Github. Scan gjerne koden på andre måter også om dere har slike verktøy for hånden. https://docs.microsoft.com/en-us/dotnet/architecture/devops-for-aspnet-developers/actions-codeql
+- :warning: Legg inn et <b>bilde</b> i profilen din hvor man ser at det er deg. (eksempel: https://github.com/crolsson)
 - Legg gjerne inn hvilket team du jobber i og hva du jobber med også. 
 
 <b>Nyttige lenker</b>
