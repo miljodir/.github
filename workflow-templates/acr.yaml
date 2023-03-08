@@ -41,7 +41,7 @@ jobs:
       #dockerfile-path: ./src/Dockerfile # can be set if Dockerfile is not directly under build-path / build context
       #build-arg: "environment=dev"
       #run-image-scan: "false" # defaults to true
-      #image-scan-severity: "MEDIUM" # defaults to "HIGH"
+      #image-scan-severity: "CRITICAL,HIGH" # defaults to "CRITICAL,HIGH,MEDIUM"
 
       # OPTIONAL ARGUMENTS - Auto update image tag / check status. Remove below args to skip auto-updating
       k8s-repo: "wl-myteam" # Change me
