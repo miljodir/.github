@@ -45,4 +45,4 @@ jobs:
 
       # OPTIONAL ARGUMENTS - Auto update image tag / check status. Remove below args to skip auto-updating
       k8s-repo: "wl-myteam" # Change me
-      k8s-deploymentfile: "/fluxcd/dev/deployment.yaml" # auto update image in deployment yaml. Requires the github app permission to bypass branch protection
+      k8s-deploymentfile: "fluxcd/dev/deployment.yaml" # auto update image in deployment yaml. Requires the github app permission to bypass branch protection
