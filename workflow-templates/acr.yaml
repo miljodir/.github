@@ -1,4 +1,4 @@
-name: (Dev) Container image build and push, optionally update flux config
+name: Container image build and push, update flux config
 
 on:
   workflow_dispatch:
@@ -6,43 +6,91 @@ on:
       no-build:
         description: "Use an existing image instead of building a new"
         required: false
-        default: "false"
         type: choice
         options:
-          - "false"
-          - "true"
+          - true
+          - false
+        default: "false"
 
       no-build-tag:
         description: "Existing image tag to use, e.g. '03-10-2022.210'"
         required: false
-        default: "latest"
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "src/**.cs"
+      - "src/**.csproj"
   push:
     branches:
-      - $default-branch
+      - main
     paths:
-      - "src/**"
-      - "!src/**/*.md"
+      - "src/**.cs"
+      - "src/**.csproj"
 
 jobs:
-  dev:
+
+  build:
     uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@acr/v1
     secrets: inherit
     with:
-      # REQUIRED ARGUMENTS - change to fit your needs
-      environment: dev # dev, test or production.
-      image-name: testteam1/testapp1 # Format your images like this: teamname/appname . Use appname/appname if "team/workload" is not applicaable
-      build-path: "./src" # path to your Dockerfile
+      environment: build
+      image-name: testteam1/testapp1
+      use-image-env-tag: "false"
+      build-path: "./src/aspnetapp"
+      dockerfile-path: ./src/aspnetapp/Dockerfile
+      no-push: ${{github.event_name == 'pull_request' && true || false}}
 
-      # workflow_dispatch Arguments - leave as-is
+      k8s-repo: "wl-testteam1"
+      build-arg: |
+        input=output
+        TARGETARCH=x64
+      run-image-scan: "true"
       no-build: ${{ github.event.inputs.no-build }}
       no-build-tag: ${{ github.event.inputs.no-build-tag }}
 
-      # OPTIONAL ARGUMENTS - build and scan container image
-      #dockerfile-path: ./src/Dockerfile # can be set if Dockerfile is not directly under build-path / build context
-      #build-arg: "environment=dev"
-      #run-image-scan: "false" # defaults to true
-      #image-scan-severity: "CRITICAL,HIGH" # defaults to "CRITICAL,HIGH,MEDIUM"
+  dev:
+    if: ${{ always() && !cancelled() && github.event_name != 'pull_request' }}
+    needs: [build]
+    uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@acr/v1
+    secrets: inherit
+    with:
+      environment: dev
+      image-name: testteam1/testapp1
 
-      # OPTIONAL ARGUMENTS - Auto update image tag / check status. Remove below args to skip auto-updating
-      k8s-repo: "wl-myteam" # Change me
-      k8s-deploymentfile: "fluxcd/dev/deployment.yaml" # auto update image in deployment yaml. Requires the github app permission to bypass branch protection
+      k8s-repo: "wl-testteam1"
+      k8s-deploymentfile: "fluxcd/dev/deployment.yaml"
+      run-image-scan: "false"
+      no-build: "true" 
+      no-build-tag: ${{ github.event.inputs.no-build-tag || needs.build.outputs.image-tag }}
+
+  test:
+    if: ${{ always() && !cancelled() && github.event_name != 'pull_request' }}
+    needs: [build]
+    uses: miljodir/wl-testteam1/.github/workflows/acr.yaml@main
+    secrets: inherit
+    with:
+      environment: test
+      image-name: testteam1/testapp1
+
+      k8s-repo: "wl-testteam1"
+      k8s-deploymentfile: "fluxcd/test/deployment.yaml"
+      run-image-scan: "false"
+      no-build: "true"
+      no-build-tag: ${{ github.event.inputs.no-build-tag || needs.build.outputs.image-tag }}
+
+  production:
+    if: ${{ always() && !cancelled() && github.event_name != 'pull_request' }}
+    needs: [build]
+    uses: miljodir/wl-testteam1/.github/workflows/acr.yaml@main
+    secrets: inherit
+    with:
+      environment: production
+      image-name: testteam1/testapp1
+
+      k8s-repo: "wl-testteam1"
+      k8s-deploymentfile: "fluxcd/prod/deployment.yaml"
+      run-image-scan: "false"
+      no-build: "true"
+      no-build-tag: ${{ github.event.inputs.no-build-tag || needs.build.outputs.image-tag }}
