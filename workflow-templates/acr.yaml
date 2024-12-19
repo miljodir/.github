@@ -43,7 +43,7 @@ jobs:
 
       k8s-repo: "wl-testteam1"
       k8s-deploymentfile: "fluxcd/dev/deployment.yaml"
-      run-image-scan: "false"
+      run-image-scan:  "true"
       no-build: ${{ github.event.inputs.no-build }}
       no-build-tag: ${{ github.event.inputs.no-build-tag }}
       build-arg: |
