@@ -31,44 +31,29 @@ on:
 
 jobs:
 
-  build:
-    uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@acr/v1
-    secrets: inherit
-    with:
-      environment: build
-      image-name: testteam1/testapp1
-      use-image-env-tag: "false"
-      build-path: "./src/aspnetapp"
-      dockerfile-path: ./src/aspnetapp/Dockerfile
-      no-push: ${{github.event_name == 'pull_request' && true || false}}
-
-      k8s-repo: "wl-testteam1"
-      build-arg: |
-        input=output
-        TARGETARCH=x64
-      run-image-scan: "true"
-      no-build: ${{ github.event.inputs.no-build }}
-      no-build-tag: ${{ github.event.inputs.no-build-tag }}
-
   dev:
-    if: ${{ always() && !cancelled() && github.event_name != 'pull_request' }}
-    needs: [build]
     uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@acr/v1
     secrets: inherit
     with:
       environment: dev
       image-name: testteam1/testapp1
+      build-path: "./src/aspnetapp"
+      dockerfile-path: ./src/aspnetapp/Dockerfile
+      no-push: ${{github.event_name == 'pull_request' && true || false}}
 
       k8s-repo: "wl-testteam1"
       k8s-deploymentfile: "fluxcd/dev/deployment.yaml"
       run-image-scan: "false"
-      no-build: "true" 
-      no-build-tag: ${{ github.event.inputs.no-build-tag || needs.build.outputs.image-tag }}
+      no-build: ${{ github.event.inputs.no-build }}
+      no-build-tag: ${{ github.event.inputs.no-build-tag }}
+      build-arg: |
+        input=output
+        TARGETARCH=x64
 
   test:
     if: ${{ always() && !cancelled() && github.event_name != 'pull_request' }}
-    needs: [build]
-    uses: miljodir/wl-testteam1/.github/workflows/acr.yaml@main
+    needs: [dev]
+    uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@acr/v1
     secrets: inherit
     with:
       environment: test
@@ -78,12 +63,13 @@ jobs:
       k8s-deploymentfile: "fluxcd/test/deployment.yaml"
       run-image-scan: "false"
       no-build: "true"
-      no-build-tag: ${{ github.event.inputs.no-build-tag || needs.build.outputs.image-tag }}
+      no-build-tag: ${{ github.event.inputs.no-build-tag || needs.dev.outputs.image-tag }}
+
 
   production:
     if: ${{ always() && !cancelled() && github.event_name != 'pull_request' }}
     needs: [build]
-    uses: miljodir/wl-testteam1/.github/workflows/acr.yaml@main
+    uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@acr/v1
     secrets: inherit
     with:
       environment: production
