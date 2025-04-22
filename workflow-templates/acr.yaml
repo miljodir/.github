@@ -32,6 +32,7 @@ on:
 jobs:
 
   dev:
+    if: ${{!github.event.pull_request.draft}}
     uses: miljodir/cp-workflow-templates/.github/workflows/acr.yaml@acr/v1
     secrets: inherit
     with:
@@ -39,12 +40,12 @@ jobs:
       image-name: testteam1/testapp1
       build-path: "./src/aspnetapp"
       dockerfile-path: ./src/aspnetapp/Dockerfile
-      no-push: ${{github.event_name == 'pull_request' && true || false}}
 
       k8s-repo: "wl-testteam1"
       k8s-deploymentfile: "fluxcd/dev/deployment.yaml"
-      run-image-scan:  "true"
       no-build: ${{ github.event.inputs.no-build }}
+      no-push: ${{github.event_name == 'pull_request' && true || false}}
+      run-image-scan: ${{ github.event.inputs.run-image-scan == 'true' || (github.event_name == 'pull_request' && !github.event.pull_request.draft) || github.event_name == 'push' }}
       no-build-tag: ${{ github.event.inputs.no-build-tag }}
       build-arg: |
         input=output
