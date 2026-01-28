@@ -10,5 +10,4 @@
 
 -	Kjøreregler for produktutvikling: https://github.com/miljodir/guider/blob/main/produktutvikling.md.
 -	Slack: https://github.com/miljodir/guider/blob/main/tilgang-til-slack.md
-- Utvikler-blogg: https://miljodirektoratet.github.io/
 - Rob's blogg: https://devopsjournal.io/
