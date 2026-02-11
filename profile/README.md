@@ -4,7 +4,10 @@
 
 - Ikke legg inn data som kan forårsake sikkerhetsproblemer. Passord, innloggingstokens og andre "hemmeligheter" skal legges i Azure Key Vault. Secret- og code-scanning skal utføres når kode sjekkes inn. <b>CodeQL og Dependabot</b> er tilgjengelige i Github. Scan gjerne koden på andre måter også om dere har slike verktøy for hånden. 
 - :warning: Legg inn et <b>bilde</b> i profilen din hvor man ser at det er deg. (eksempel: https://github.com/crolsson)
-- Legg gjerne inn hvilket team du jobber i og hva du jobber med også. 
+- Legg gjerne inn hvilket team du jobber i og hva du jobber med også.
+
+<b>Public code</b>
+- Vi har også et område med mer offentlig tilgjengelig kode: https://github.com/miljodirektoratet
 
 <b>Nyttige lenker</b>
 
